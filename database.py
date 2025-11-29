@@ -4,7 +4,6 @@ conn = psycopg2.connect(host="localhost", port="5432", user="postgres", password
 
 cur = conn.cursor()
 
-
 def get_products():
     cur.execute("select * from products")
     products = cur.fetchall()
@@ -21,3 +20,22 @@ my_product2 = ('Iphone', 200000, 250000)
 insert_products(my_product)
 insert_products(my_product2)
 print(products)
+
+def insert_sales(values):
+    cur.execute(f"insert into sales(pid, quantity)values{values}")
+    conn.commit()
+
+my_sale = (1, 700)
+my_sale2 = (2, 49)
+insert_sales(my_sale)
+insert_sales(my_sale2)
+
+
+def get_sales():
+    cur.execute("select * from sales")
+    sales = cur.fetchall()
+    return sales
+
+sales = get_sales()
+print(sales)
+
