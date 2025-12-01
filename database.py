@@ -39,3 +39,4 @@ def get_sales():
 sales = get_sales()
 print(sales)
 
+
