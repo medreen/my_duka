@@ -72,7 +72,22 @@ OOP -->A programming paradigm that builds programs around classes and objects.
  **Classes**
  --> a blueprint or a template for creating objects 
  **Objects**
- --> 
+ --> an instance of a class
+
+ **a class is defined by:
+     1.attributes - variables holding data in a class.
+                       - answer the question what does a class have.
+          e.g class Person --> name, age, height,weight,marital_status, address
+              class Car --> engine, year_of_make, model, colour
+          
+     2.behaviour -defined by methods
+          -->Behaviour answers the question: what can a person do?
+          class Car - start, move, stop
+
  **Methods**
- **Constructor**
+--> Functions inside classes
+
+ **Constructor** - a special method used to initialize objects.
+ --<it is automatically called when an object is created>
  **Self**
+ -references the object itself.
