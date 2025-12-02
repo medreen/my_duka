@@ -52,8 +52,27 @@ con.commit() - updates the database with the new state
 --> python functions, data types, type conversion, loops, if statements, lists and tuples
 
 2.research on another method apart from f-string that would be used to add products dynamically
-----<hint: use %5>
+----<hint: use %s>
 
 3.create two functions to:
  -> insert 2 sales using psycopg2 --> insert sales()
  -> view my sales using psycopg2 --> get_sales
+
+               OBJECT ORIENTED PROGRAMMING
+--> We have the following broad categories of classifying data types.
+1.Inbuilt data types - data types that come with the programming language
+     e.g. Python --> int, float, str, bool, list, tuple, set, dict
+
+2.User defined data types - are data types created by the programmer
+ (enabled by the use of classes and objects e.g Person, Student, Car)
+
+
+OOP -->A programming paradigm that builds programs around classes and objects.
+ 
+ **Classes**
+ --> a blueprint or a template for creating objects 
+ **Objects**
+ --> 
+ **Methods**
+ **Constructor**
+ **Self**
