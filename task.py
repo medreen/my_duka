@@ -16,6 +16,15 @@ class BankAccount:
     def display_info(self):
         return f"------USER INFO------ \nAccount number: {self.account_number} \nUser name: {self.owner_name} \nBalance: {self.balance} \nDate of registeration: {self.date_opened}."
     
+    def init(self, deposit, display_info):
+        self.deposit = deposit
+        self.info = display_info
+
+    def init(self, withdraw, display_info):
+        self.withdraw = withdraw
+        self.info = display_info
+        
+    
 user_1 = BankAccount(1, "Lucas", 300, "1-Jan")
 print(user_1)
 
