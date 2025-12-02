@@ -10,8 +10,9 @@ class BankAccount:
         return self.balance
     
     def withdraw(self, amount):
-        self.balance -= amount
-        return self.balance
+        if self.balance > amount:
+            self.balance -= amount
+            return self.balance
     
     def display_info(self):
         return f"------USER INFO------ \nAccount number: {self.account_number} \nUser name: {self.owner_name} \nBalance: {self.balance} \nDate of registeration: {self.date_opened}."
