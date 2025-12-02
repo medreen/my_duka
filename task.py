@@ -11,10 +11,12 @@ class BankAccount:
     
     def withdraw(self, amount):
         if self.balance > amount:
-            return "Insufficient funds"
+            message = "Insufficient funds"
         else:
             self.balance -= amount
-            return self.balance
+            message = self.balance
+
+            return message
     
     def display_info(self):
         return f"------USER INFO------ \nAccount number: {self.account_number} \nUser name: {self.owner_name} \nBalance: {self.balance} \nDate of registeration: {self.date_opened}."
