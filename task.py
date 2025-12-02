@@ -16,7 +16,7 @@ class BankAccount:
             self.balance -= amount
             message = self.balance
 
-            return message
+        return message
     
     def display_info(self):
         return f"------USER INFO------ \nAccount number: {self.account_number} \nUser name: {self.owner_name} \nBalance: {self.balance} \nDate of registeration: {self.date_opened}."
