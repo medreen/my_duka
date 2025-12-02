@@ -67,10 +67,11 @@ con.commit() - updates the database with the new state
  (enabled by the use of classes and objects e.g Person, Student, Car)
 
 
-OOP -->A programming paradigm that builds programs around classes and objects.
+*OOP* -->A programming paradigm that builds programs around classes and objects.
  
  **Classes**
  --> a blueprint or a template for creating objects 
+
  **Objects**
  --> an instance of a class
 
@@ -89,5 +90,10 @@ OOP -->A programming paradigm that builds programs around classes and objects.
 
  **Constructor** - a special method used to initialize objects.
  --<it is automatically called when an object is created>
+     Python uses __init__(self,parameters)
+
  **Self**
  -references the object itself.
+
+ **Parameters**
+ ---> attributes of a class.
