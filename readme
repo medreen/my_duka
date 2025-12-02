@@ -97,3 +97,34 @@ con.commit() - updates the database with the new state
 
  **Parameters**
  ---> attributes of a class.
+
+--INHERITANCE--
+A concept where one class acquires / inherits properties from another class
+--> allows you to reuse code instead of rewriting everything from scratch.
+
+*Parent class* --> class from which properties are inherited(base class)
+
+*Child class* --> inheriting properties from another class(derived class)
+
+//Why use inheritance//
+1.Avoids duplicated code
+2.Adds new features to an existing class
+3.Allows behaviour modification - method overriding
+
+Types of Inheritance
+1.Single inheritance
+ ---> a child class inherits from one single parent class
+2.Multiple inheritance
+ ---> a child class class inherits from more than one parent class.
+3.Multilevel inheritance
+ ---> a child class inherits from a parent and the parent inherits from another parent
+4.Hierrachial inheritance
+ ---> multiple children inherit from one parent
+
+Method over-riding
+--> This is where a child class provides its own implementation of a method that already exists in the parent class.
+--> the child method replaces the parent's 
+
+
+
+
