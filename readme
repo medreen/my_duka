@@ -115,7 +115,7 @@ Types of Inheritance
 1.Single inheritance
  ---> a child class inherits from one single parent class
 2.Multiple inheritance
- ---> a child class class inherits from more than one parent class.
+ ---> a child class inherits from more than one parent class.
 3.Multilevel inheritance
  ---> a child class inherits from a parent and the parent inherits from another parent
 4.Hierrachial inheritance
