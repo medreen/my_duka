@@ -125,6 +125,22 @@ Method over-riding
 --> This is where a child class provides its own implementation of a method that already exists in the parent class.
 --> the child method replaces the parent's 
 
+To avoid method overriding we use .super *method name*
+whenever we initialize an attribute the childs breaks off from the parent
+
+__str__ is used to avoid having a memory location printed when we asign objects to the class
+such that when used it returns the exact object and not the memory location.
+
+**dunder methods*
+
+__name --> used to prevent name mungling
+
+**FLASK**
+A python framework used to build web applications.
+
+Framework vs Library
+--> 
+
 
 
 
