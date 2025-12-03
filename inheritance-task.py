@@ -69,12 +69,13 @@ Year of Make : {self.yom}\n"""
       
     
 # tests
-car_1 = Car("Mazda", "Demio", 20, "Low","Stopped", True)
+car_1 = Car("Mazda", "Demio", 20, "Low","Stopped")
 print(car_1.is_moving)
 
-car_1.start()
+
 
 car_1.drive()
+car_1.stop()
 rfl = car_1.refuel(12)
 print(rfl)
 
@@ -99,7 +100,7 @@ class Person:
 National ID : {self.national_id}
 First name : {self.first_name}
 Last name : {self.last_name}
-Age : {self.age} \n"""
+Age : {self.age}"""
         return message
     
 class Student(Person):
@@ -112,11 +113,7 @@ class Student(Person):
 
     def display_info(self):
         return f"""---STUDENT DETAILS---
-National ID : {self.national_id}
-Student ID : {self.student_id}
-First name : {self.first_name}
-Last name : {self.last_name}
-Age : {self.age}
+{super().display_info()}
 Course : {self.course}
 Duration : {self.duration}
 Date Joined : {self.date_joined}\n"""
@@ -130,12 +127,10 @@ class Teacher(Person):
 
     def display_info(self):
         return f"""---TEACHER DETAILS---
-National ID : {self.national_id}
-First name : {self.first_name}
-Last name : {self.last_name}
-Age : {self.age}
+{super().display_info()}
 Teaching : {self.subject}
 Monthly Salary : KES.{self.salary}\n"""
+    
     
 # tests
 person_1 = Person("39402484","Jane", "Doe", 12)
