@@ -12,7 +12,7 @@ class Car:
         self.yom = year
 
     def start(self):
-        if self.fuel_capacity == 0 and self.state != "Started":
+        if self.fuel_capacity != 0 and self.state != "Started":
             self.state = "Started."
             self.is_moving = True
         elif self.is_moving == True:
