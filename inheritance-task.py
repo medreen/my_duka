@@ -1,4 +1,88 @@
 import datetime
+import math
+
+# car class
+class Car:
+    def __init__(self, brand, model, fuel_capacity, fuel_level, state,is_moving = False, year=datetime.datetime.now()):
+        self.brand = brand
+        self.model = model     
+        self.fuel_capacity = fuel_capacity   
+        self.fuel_level = fuel_level
+        self.state = state
+        self.is_moving = is_moving
+        self.yom = year
+
+    def start(self):
+        if self.fuel_capacity == 0 and self.state != "Started":
+            self.state = "Started."
+            self.is_moving = True
+        elif self.is_moving == True:
+            self.state = "Moving."
+        
+     
+    def stop(self):
+        if self.state == "Stopped":
+            self.state = "Stopped."
+            self.is_moving = False
+        elif self.is_moving == True:
+            self.state = "Moving"
+        
+    
+    def refuel(self, fuel):
+            self.fuel_capacity += fuel
+            kms = self.fuel_capacity // 0.1
+            # fuel level
+            if self.fuel_capacity >= 0 and self.fuel_capacity < 10:
+                self.fuel_level = "Warning"
+                message = f"Fuel Capacity is {self.fuel_capacity}L.\nYou have {kms} kilometers to empty.\nFuel Level is {self.fuel_level}."
+            elif self.fuel_capacity >= 10 and self.fuel_capacity < 15:
+                self.fuel_level = "Low"
+                message = f"Fuel Capacity is {self.fuel_capacity}L.\nYou have {kms} kilometers to empty.\nFuel Level is {self.fuel_level}."
+            elif self.fuel_capacity >= 15 and self.fuel_capacity < 25:
+                self.fuel_level = "E"
+                message = f"Fuel Capacity is {self.fuel_capacity}L.\nYou have {kms} kilometers to empty.\nFuel Level is {self.fuel_level}."
+            elif self.fuel_capacity >= 25:
+                self.fuel_level = "F"
+                message = f"Fuel Capacity is {self.fuel_capacity}L.\nYou have {kms} kilometers to empty.\nFuel Level is {self.fuel_level}."
+            else:
+                message = "Not valid"
+      
+            return message
+    
+    def drive(self):
+        if self.is_moving == False: 
+          message = "Start the vehicle."         
+        elif self.fuel_capacity > 0: 
+           self.is_moving == True       
+           message = f"{self.brand} {self.model} is driving."
+            
+        return message
+    
+    def display_car_info(self):
+      return f"""---CAR INFO---
+Brand : {self.brand}
+Model : {self.model}
+Fuel Capacity : {self.fuel_capacity}
+Fuel Level(Warning, Low, E, F) : {self.fuel_level}
+Car Status : {self.state}
+Is car moving : {self.is_moving}
+Year of Make : {self.yom}\n"""
+      
+    
+# tests
+car_1 = Car("Mazda", "Demio", 20, "Low","Stopped", True)
+print(car_1.is_moving)
+
+car_1.start()
+
+car_1.drive()
+rfl = car_1.refuel(12)
+print(rfl)
+
+info = car_1.display_car_info()
+print(info)
+
+
 
 # school system
 class Person:
@@ -53,8 +137,8 @@ Last name : {self.last_name}
 Age : {self.age}
 Teaching : {self.subject}
 Monthly Salary : KES.{self.salary}\n"""
-
     
+# tests
 person_1 = Person("39402484","Jane", "Doe", 12)
 print(person_1.age)
 
