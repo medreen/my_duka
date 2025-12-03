@@ -20,7 +20,7 @@ class Car:
         
      
     def stop(self):
-        if self.state == "Stopped":
+        if self.state != "Stopped":
             self.state = "Stopped."
             self.is_moving = False
         elif self.is_moving == True:
