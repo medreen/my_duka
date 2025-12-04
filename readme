@@ -142,5 +142,55 @@ Framework vs Library
 --> 
 
 
+A mechanism to map or connect urls to python functions.
+Its a system for resource navigation
+---> connects a url to a function in the flask app.
+
+*URL* -> uniform resource locator
+(full address used to access resources on the web)
+
+**parts of a url** 
+1.Protocol - tells the browser how to communicate
+ (http *data is sent as raw text* & https --s -> secure--- *data is encripted* we use an ssl or a tls)
+2.Domain name - name of the website
+3.port (optional)- where exactly to find the service
+4.path - the specific page or resource 
+5.fragments
+6.query parameter
+
+
+In Flask, routing is executed using a decorator function ---> @app.route()
+**Decorator function*
+a function that allows you to modify or 
+
+The @app.route() decorator function can take some parameters:
+-Rule / Path
+-Methods
+
+**Index route - / --> default home / landing route
+
+TASK 
+Import get_sales to flask and display them in your browser
+Adjust your project structure to have the structure below
+
+My-Duka -
+-> database.py
+-> main.py
+-> folder ---> static
+-> folder ---> templates 
+        -index.html
+        -products.html
+        -sales.html
+        -dashboard.html
+        -log-in.html
+        -register.html
+
+
+
+
+
+
+
+
 
 
