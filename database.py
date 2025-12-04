@@ -16,6 +16,7 @@ def insert_products(values):
     conn.commit()
 
 # my_product = ('Samsung', 100000, 120000)
+
 # my_product2 = ('Iphone', 200000, 250000)
 # insert_products(my_product)
 # insert_products(my_product2)
