@@ -30,4 +30,4 @@ def log_in():
     return "This is the log-in route"
 
     
-app.run()
+app.run(debug=True)
