@@ -186,6 +186,18 @@ My-Duka -
         -register.html
 
 
+instead of returning simple text we now
+to return html pages with flask we use an inbuilt function imported from Flask called render_template()
+render_template("nameoffile")
+**the file has to be inside the template folder*
+
+Template inheritance - reducing redudancy in creatin html pages by creating one common html file that defined the structure of every single html file.
+---< this file will contain all common componenrs accross all pages >
+-Every html file will now inherit the common components from it
+-Template inheritance in Flask uses Jinja syntax
+
+{% extends 'base.html' %} --> inherit all common components
+
 
 
 
