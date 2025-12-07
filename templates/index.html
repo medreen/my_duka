@@ -1,11 +1,130 @@
 {% extends 'base.html' %}
-{% block title %} Products {% endblock %}
+{% block title %} Landing Page {% endblock %}
 {% block content %}
 
-<div>
-    <div>
-        <p>This is the products page</p>
+<style>
+    /* Reduce only card sizes */
+    .small-card {
+        max-width: 300px;
+        margin: auto;
+        border-radius: 12px;
+    }
+
+    .small-card img {
+        height: 250px;        /* smaller image */
+        object-fit: cover;
+        border-radius: 12px 12px 0 0;
+    }
+
+    /* Ensure footer stays at bottom */
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    footer {
+        margin-top: auto;
+    }
+</style>
+
+
+<!-- CAROUSEL -->
+<div class="container-fluid mt-2 mb-2">
+    <div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
+
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ url_for('static', filename='kisanislide1.png') }}" class="d-block w-100" alt="Slide 1">
+            </div>
+
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='kisanislide2.png') }}" class="d-block w-100" alt="Slide 2">
+            </div>
+
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='kisanislide3.png') }}" class="d-block w-100" alt="Slide 3">
+            </div>
+
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='kisanislide4.png') }}" class="d-block w-100" alt="Slide 4">
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+
     </div>
 </div>
+
+
+<!-- SMALLER CARDS -->
+<div class="container mt-5 mb-5 d-flex gap-4">
+
+    <div class="card small-card mb-3 shadow-sm">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Kisani Logo">
+        <div class="card-body">
+            <h5 class="card-title">Our Goal</h5>
+            <p class="card-text">
+                This is a wider card with supporting text below as a natural lead-in
+                to additional content. This content is a little bit longer.
+            </p>
+            <p class="card-text">
+                <small class="text-body-secondary">Last updated 3 mins ago</small>
+            </p>
+        </div>
+    </div>
+
+        <div class="card small-card mb-3 shadow-sm">
+        <img src="{{ url_for('static', filename='kisani_logo.png') }}" alt="Logo">
+        <div class="card-body">
+            <h5 class="card-title">Our Vision</h5>
+            <p class="card-text">
+                This is a wider card with supporting text below as a natural lead-in
+                to additional content. This content is a little bit longer.
+            </p>
+            <p class="card-text">
+                <small class="text-body-secondary">Last updated 5 mins ago</small>
+            </p>
+        </div>
+    </div>
+
+    <div class="card small-card mb-3 shadow-sm">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        <div class="card-body">
+            <h5 class="card-title">Our Mission</h5>
+            <p class="card-text">
+                This is a wider card with supporting text below as a natural lead-in
+                to additional content. This content is a little bit longer.
+            </p>
+            <p class="card-text">
+                <small class="text-body-secondary">Last updated 5 mins ago</small>
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<!-- FEATURE / ABOUT SECTION -->
+<section class="py-5" style="background-color: #7d868d;">
+  <div class="container text-center text-white" style="max-width: 700px;">
+    <h2 class="mb-4">To touch base.</h2>
+    <p class="lead">
+      Kisani is where drip meets canvas — straight-up art with mad swag. Every fit, every piece, every accessory speaks louder than words, flexin' your vibe and showing off your personality. We're all about niche fashion — the kinda stuff you don't see on everyone, the kinda fits that make people do a double-take.  
+    </p>
+    <p class="lead">
+      It's self-expression turned up, culture mixed with creativity, and that effortless cool that says “I do me” without even trying. Kisani ain't just clothing, it's a whole mood, a lifestyle, and a way to stunt your style like a creative.  
+    </p>
+    <p class="fw-bold">||SWAGCiTY||</p>
+  </div>
+</section>
+
+
 
 {% endblock %}
