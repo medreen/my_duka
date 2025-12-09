@@ -3,24 +3,22 @@ psycopg2 - is a postreSQL adapter used to connect python to a postres database
 Terms of importance
 *internet - interconnection of computers / global network of connected devices.
 *www - worldwide web --> a service that connects users to the internet via the browser.
-*hosting - uploading application files to a server so that it can be visible to others online
-
+\*hosting - uploading application files to a server so that it can be visible to others online
 
 1.build your application
 2.send your files to a server
 3.ip address is assigned to the application
- 
-**ip address -> a number that is used to uniquely identify a device on a network e.g 170.100.03.80 **ipv4**
+
+**ip address -> a number that is used to uniquely identify a device on a network e.g 170.100.03.80 **ipv4\*\*
 (various categories depending on the network)
 
 domain name - a user friendly name attached to an ip address to enable users access applications e.g www.google.com / www.netflix.com
-
 
 developer uploads app files to a server
 that server has an ip address
 to access the app hosted on the server, we use the server ip address -> 170.100.02.80
 
-**DNS - domain name system - the internets phone-book used to translate domain names into ip addresses.
+\*\*DNS - domain name system - the internets phone-book used to translate domain names into ip addresses.
 
 127.0.0.1 -> ip address of your device
 localhost -> domain name
@@ -29,24 +27,24 @@ host -> local host (your domain name)
 port -> where exactly in my device id the database located
 user & password - authentication
 
-User Applications / Hardware <--->  Drivers <----> OS (Kernel)
-                                (Keyboard driver)
-                                (Bluetooth driver)
+User Applications / Hardware <---> Drivers <----> OS (Kernel)
+(Keyboard driver)
+(Bluetooth driver)
 
-     (Python code) <=========> (DB-API Interface) <========> Driver(Psycopg2) <======> DB(Postgres)    
+     (Python code) <=========> (DB-API Interface) <========> Driver(Psycopg2) <======> DB(Postgres)
 
 **PSYCOPG2**
 A PostgreSQL adapter (driver) used to connect Python to a Postres database
 
 C create --> insert
 R Read - select
-U Update - 
+U Update -
 D Delete
 
 con.commit() - updates the database with the new state
 ---> add 5 products
 
-**TASK*
+\*_TASK_
 1.Brush up on:
 --> sql queries, joins, where etc
 --> python functions, data types, type conversion, loops, if statements, lists and tuples
@@ -55,56 +53,55 @@ con.commit() - updates the database with the new state
 ----<hint: use %s>
 
 3.create two functions to:
- -> insert 2 sales using psycopg2 --> insert sales()
- -> view my sales using psycopg2 --> get_sales
+-> insert 2 sales using psycopg2 --> insert sales()
+-> view my sales using psycopg2 --> get_sales
 
                OBJECT ORIENTED PROGRAMMING
+
 --> We have the following broad categories of classifying data types.
 1.Inbuilt data types - data types that come with the programming language
-     e.g. Python --> int, float, str, bool, list, tuple, set, dict
+e.g. Python --> int, float, str, bool, list, tuple, set, dict
 
 2.User defined data types - are data types created by the programmer
- (enabled by the use of classes and objects e.g Person, Student, Car)
+(enabled by the use of classes and objects e.g Person, Student, Car)
 
+_OOP_ -->A programming paradigm that builds programs around classes and objects.
 
-*OOP* -->A programming paradigm that builds programs around classes and objects.
- 
- **Classes**
- --> a blueprint or a template for creating objects 
+**Classes**
+--> a blueprint or a template for creating objects
 
- **Objects**
- --> an instance of a class
+**Objects**
+--> an instance of a class
 
- **a class is defined by:
-     1.attributes - variables holding data in a class.
-                       - answer the question what does a class have.
-          e.g class Person --> name, age, height,weight,marital_status, address
-              class Car --> engine, year_of_make, model, colour
-          
+\*\*a class is defined by:
+1.attributes - variables holding data in a class. - answer the question what does a class have.
+e.g class Person --> name, age, height,weight,marital_status, address
+class Car --> engine, year_of_make, model, colour
+
      2.behaviour -defined by methods
           -->Behaviour answers the question: what can a person do?
           class Car - start, move, stop
 
- **Methods**
+**Methods**
 --> Functions inside classes
 
- **Constructor** - a special method used to initialize objects.
- --<it is automatically called when an object is created>
-     Python uses __init__(self,parameters)
+**Constructor** - a special method used to initialize objects.
+--<it is automatically called when an object is created>
+Python uses **init**(self,parameters)
 
- **Self**
- -references the object itself.
+**Self**
+-references the object itself.
 
- **Parameters**
- ---> attributes of a class.
+**Parameters**
+---> attributes of a class.
 
 --INHERITANCE--
 A concept where one class acquires / inherits properties from another class
 --> allows you to reuse code instead of rewriting everything from scratch.
 
-*Parent class* --> class from which properties are inherited(base class)
+_Parent class_ --> class from which properties are inherited(base class)
 
-*Child class* --> inheriting properties from another class(derived class)
+_Child class_ --> inheriting properties from another class(derived class)
 
 //Why use inheritance//
 1.Avoids duplicated code
@@ -113,63 +110,60 @@ A concept where one class acquires / inherits properties from another class
 
 Types of Inheritance
 1.Single inheritance
- ---> a child class inherits from one single parent class
+---> a child class inherits from one single parent class
 2.Multiple inheritance
- ---> a child class inherits from more than one parent class.
+---> a child class inherits from more than one parent class.
 3.Multilevel inheritance
- ---> a child class inherits from a parent and the parent inherits from another parent
+---> a child class inherits from a parent and the parent inherits from another parent
 4.Hierrachial inheritance
- ---> multiple children inherit from one parent
+---> multiple children inherit from one parent
 
 Method over-riding
 --> This is where a child class provides its own implementation of a method that already exists in the parent class.
---> the child method replaces the parent's 
+--> the child method replaces the parent's
 
-To avoid method overriding we use .super *method name*
+To avoid method overriding we use .super _method name_
 whenever we initialize an attribute the childs breaks off from the parent
 
-__str__ is used to avoid having a memory location printed when we asign objects to the class
+**str** is used to avoid having a memory location printed when we asign objects to the class
 such that when used it returns the exact object and not the memory location.
 
-**dunder methods*
+\*_dunder methods_
 
-__name --> used to prevent name mungling
+\_\_name --> used to prevent name mungling
 
 **FLASK**
 A python framework used to build web applications.
 
 Framework vs Library
---> 
-
+-->
 
 A mechanism to map or connect urls to python functions.
 Its a system for resource navigation
 ---> connects a url to a function in the flask app.
 
-*URL* -> uniform resource locator
+_URL_ -> uniform resource locator
 (full address used to access resources on the web)
 
-**parts of a url** 
+**parts of a url**
 1.Protocol - tells the browser how to communicate
- (http *data is sent as raw text* & https --s -> secure--- *data is encripted* we use an ssl or a tls)
+(http _data is sent as raw text_ & https --s -> secure--- _data is encripted_ we use an ssl or a tls)
 2.Domain name - name of the website
 3.port (optional)- where exactly to find the service
-4.path - the specific page or resource 
+4.path - the specific page or resource
 5.fragments
 6.query parameter
 
-
-In Flask, routing is executed using a decorator function ---> @app.route()
-**Decorator function*
-a function that allows you to modify or 
+In Flask, routing is executed using a decorator function ---> @app.route() \*_Decorator function_
+a function that allows you to modify or
 
 The @app.route() decorator function can take some parameters:
 -Rule / Path
 -Methods
 
-**Index route - / --> default home / landing route
+\*\*Index route - / --> default home / landing route
 
-TASK 
+TASK
 Import get_sales to flask and display them in your browser
 Adjust your project structure to have the structure below
 
@@ -177,19 +171,17 @@ My-Duka -
 -> database.py
 -> main.py
 -> folder ---> static
--> folder ---> templates 
-        -index.html
-        -products.html
-        -sales.html
-        -dashboard.html
-        -log-in.html
-        -register.html
-
+-> folder ---> templates
+-index.html
+-products.html
+-sales.html
+-dashboard.html
+-log-in.html
+-register.html
 
 instead of returning simple text we now
 to return html pages with flask we use an inbuilt function imported from Flask called render_template()
-render_template("nameoffile")
-**the file has to be inside the template folder*
+render_template("nameoffile") \*_the file has to be inside the template folder_
 
 Template inheritance - reducing redudancy in creatin html pages by creating one common html file that defined the structure of every single html file.
 ---< this file will contain all common componenrs accross all pages >
@@ -203,13 +195,51 @@ Jinja is a syntax inbuilt with flask to render Python data
 
 For variables (key features)
 --> {{ }} syntax
--->Control structures {% %}
-**Key features of control structures*
+-->Control structures {% %} \*_Key features of control structures_
 
+POSTING DATA
+Workflow - sending resources / requests to a server from a client
+e.g Posting a picture on ig
 
+1.Provide a user with a form to insert data
+2.User fills the form and submits it --> submitted to a Flask route
+--> data coming from the form to the server is sent in key-value pairs
 
+    *name* - attribute used to identify a form element when sending to a server
 
+    Form Checklist
+    -< everything a form requires in order to submit a form to Flask>
 
+    action attribute - defines the route where the forms data is to be submitted
+    method --->
+        *HTTP Methods*
+        1. GET - fetching data from a server
+        2. POST - sending data / request to a server (inserting products, making sales)
+        3. PUT - updating an exsisting resource (changing password, changing product name)
+        4. DELETE - getting rid of a resource (deleting a product)
 
+    name
+    input type
+    button --> submit
 
+3.Flask extracts from data and processses it
+flask uses a request object to extract data fromn the form using the key
+(comes from the name attribute)
+---> request.form - method used to access and extract form data using keys
+---> request.method - method used to extract the method using the form
 
+     *import request from flask*
+
+4.Store / insert this data using functions
+  --store the data in a tuple
+  --import the function to insert and use it
+  --the user is redirected
+
+5.A user is redirected
+--use redirect function imported from flask
+--redirect also takes another function 
+in the method ---> redirect(url_for(''))
+
+name attribute is used to identify form elements when sending data to a server
+
+Attempt inserting at  least one sale using a form from a modal
