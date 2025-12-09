@@ -198,6 +198,13 @@ Template inheritance - reducing redudancy in creatin html pages by creating one 
 
 {% extends 'base.html' %} --> inherit all common components
 
+Jinja 2 syntax
+Jinja is a syntax inbuilt with flask to render Python data
+
+For variables (key features)
+--> {{ }} syntax
+-->Control structures {% %}
+**Key features of control structures*
 
 
 

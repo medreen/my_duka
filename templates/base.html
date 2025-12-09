@@ -7,6 +7,10 @@
 
   <title>{% block title %}{% endblock %}</title>
 
+  <!--Database Tables-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.3.5/css/dataTables.bootstrap5.css">
+
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -26,6 +30,11 @@
       font-size: xx-large;
       font-weight: 800;
       color: #3f6995;
+    }
+
+    footer {
+      position: sticky;
+      bottom: -1;
     }
   </style>
 
@@ -80,6 +89,13 @@
 
   <!-- Bootstrap Script -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.datatables.net/2.3.5/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/2.3.5/js/dataTables.bootstrap5.js"></script>
+  <script>
+    new DataTable('#example');
+  </script>
 
 </body>
 

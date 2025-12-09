@@ -6,6 +6,32 @@
     <div>
         <p>This is the products page</p>
     </div>
+
+    <div>
+        <p> {{x}} </p>        
+    </div>
+
+    <div>
+        <table id="example" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Buying Price</th>
+                <th>Selling Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td> {{product[0]}} </td>
+                <td> {{product[1]}} </td>
+                <td> {{product[2]}} </td>
+                <td> {{product[3]}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </div>
 </div>
 
 {% endblock %}

@@ -6,6 +6,27 @@
     <div>
         <p>This is the sales page</p>
     </div>
-</div>
 
+
+    <div>
+        <table id="example" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Sales ID</th>
+                <th>Product ID</th>
+                <th>Quantity</th>
+                <th>Created at</th>          
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+            <tr>
+                <td> {{sale[0]}} </td>
+                <td> {{sale[1]}} </td>
+                <td> {{sale[2]}} </td>
+                <td> {{sale[3]}} </td>
+            </tr>
+            {% endfor %}
+    </div>
+</div>
 {% endblock %}
