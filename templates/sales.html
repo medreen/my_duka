@@ -13,7 +13,7 @@
             Add Sales
         </button>
 
-       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -21,20 +21,23 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/add_sales" method="post">
+                        <form action="/add_sales" name="product_id" method="post">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Product ID</label>
-                                <input type="text" name="product_id" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp">
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Select a product</option>
+                                    {% for product in products %}
+                                    <option value="{{product[0]}}">{{product[1]}} </option>
+                                    {% endfor %}                   
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Quantity</label>
                                 <input type="number" name="quantity" class="form-control" id="exampleInputPassword1">
-                            </div>                     
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add Sale</button>
-                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Add Sale</button>
+                            </div>
                         </form>
                     </div>
 

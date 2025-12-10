@@ -25,7 +25,8 @@ def add_products():
 @app.route('/sales')
 def fetch_sales():
     sales = get_sales()
-    return render_template('sales.html', sales = sales)
+    products = get_products()
+    return render_template('sales.html', sales = sales, products = products)
 
 @app.route('/add_sales', methods = ['GET', 'POST'])
 def add_sales():
@@ -43,7 +44,7 @@ def dashboard():
 def register():
     return render_template("register.html")
 
-@app.route('/log-in')
+@app.route('/login')
 def log_in():
     return render_template("login.html")
 
