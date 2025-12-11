@@ -60,3 +60,20 @@ def get_users():
 #get the users 
 users = get_users()
 print(users)
+
+# availabe stock
+def available_stock(pid):
+    cur.execute(f'select sum(stock_quantity) from stock where pid={pid}')
+    total_stock = cur.fetchone()[0] or 0
+
+    cur.execute(f"select quantity from sales where pid = {pid}")
+    total_sales = cur.fetchone()[0] or 0
+
+    current_stock = total_stock - total_sales
+    return current_stock
+
+stock = available_stock(1)
+print(stock)
+
+
+

@@ -243,3 +243,6 @@ in the method ---> redirect(url_for(''))
 name attribute is used to identify form elements when sending data to a server
 
 Attempt inserting at  least one sale using a form from a modal
+
+fetchall() / fetchmany -> returns list of tuples
+fetchone -> returns a tuple (because only value is returned)
