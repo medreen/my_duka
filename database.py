@@ -46,4 +46,17 @@ def get_sales():
 sales = get_sales()
 print(sales)
 
+def insert_users(values):
+    cur.execute('insert into users(full_name,email,phone_number,password)values(%s,%s,%s,%s)', (values))
+    conn.commit()
 
+def get_users():
+    cur.execute('select * from users')
+    users = cur.fetchall()
+    return users
+
+# user_1 =('John Doe', 'johnd@mail.com', '0111239415', 'mypass')
+# insert_users(user_1)
+#get the users 
+users = get_users()
+print(users)
