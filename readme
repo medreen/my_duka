@@ -246,3 +246,27 @@ Attempt inserting at  least one sale using a form from a modal
 
 fetchall() / fetchmany -> returns list of tuples
 fetchone -> returns a tuple (because only value is returned)
+
+task 
+---> write a function to insert stock, create stock route and stock page that 
+can post stock from a form
+--> write a query to fetch the following data:
+ -> sales_per_product
+ -> sales_per_day
+ -> profit_per_day
+ -> profit_per_product
+
+--> get 2 bootsrap forms for the following pages and have the listed form inputs
+a. Login --> email
+             password
+             button - type submit
+b. Register 
+     -> full_name
+     -> email
+     -> phone_number
+     -> password
+     -> button (type submit)
+
+-> continue building and styling
+          
+
