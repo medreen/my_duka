@@ -4,6 +4,9 @@ from database import get_products,get_sales,insert_products,insert_sales,availab
 # assigning an object to flask/ instance of flask
 app = Flask(__name__)
 
+#session secret_key
+app.secret_key = '893479jkkk42904829qawij8742'
+
 @app.route('/')
 def home():
     return render_template("index.html")

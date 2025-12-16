@@ -268,5 +268,9 @@ b. Register
      -> button (type submit)
 
 -> continue building and styling
+
+__Flash messages have two parts__
+--> Message - the actual text feedback
+--> Category - broader class of messages grouped by type
           
 
