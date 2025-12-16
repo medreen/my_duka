@@ -84,8 +84,22 @@ def register():
     return render_template('register.html')
 
 
-@app.route('/login')
+@app.route('/login', methods=["POST", 'GET'])
 def log_in():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        registered_user = check_user_exists(email)
+
+        if not registered_user:
+            flash('User does not exist.', 'danger')
+            return redirect(url_for(register))
+        else:
+            if password == registered_user[-1]:
+                flash('Login successful', 'success')
+                return redirect(url_for('dashboard'))
+            else:
+                flash("Check login information.", 'danger')
     return render_template("login.html")
 
 # @app.route('/test/<int:user_id>')
