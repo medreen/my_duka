@@ -62,11 +62,11 @@ users = get_users()
 print(users)
 
 # availabe stock
-def available_stock(pid):
-    cur.execute(f'select sum(stock_quantity) from stock where pid={pid}')
+def available_stock(product_id):
+    cur.execute(f'select sum(stock_quantity) from stock where pid={product_id}')
     total_stock = cur.fetchone()[0] or 0
 
-    cur.execute(f"select quantity from sales where pid = {pid}")
+    cur.execute(f"select sum(quantity) from sales where pid = {product_id}")
     total_sales = cur.fetchone()[0] or 0
 
     current_stock = total_stock - total_sales
@@ -75,5 +75,18 @@ def available_stock(pid):
 stock = available_stock(1)
 print(stock)
 
+# insert stock
+def insert_stock(values):
+    cur.execute(
+        f"insert into stock (pid,stock_quantity)values{values}",
+        
+    )
+    conn.commit()
+    
+# stock
+def get_stock():     
+    cur.execute("select * from stock")
+    stock = cur.fetchall()
+    return stock
 
 
