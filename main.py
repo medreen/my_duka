@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from database import get_products,get_sales,insert_products,insert_sales,available_stock,get_stock,insert_stock
+from database import get_products,get_sales,insert_products,insert_sales,available_stock,get_stock,insert_stock,check_user_exists, insert_users
 
 # assigning an object to flask/ instance of flask
 app = Flask(__name__)
@@ -65,9 +65,24 @@ def add_stock():
 def dashboard():
     return render_template("dashboard.html")
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template("register.html")
+    if request.method == 'POST':
+        full_name = request.form['name']
+        email = request.form['email']
+        phone_number = request.form['phone']
+        password = request.form['password']
+
+        existing_user = check_user_exists(email)
+        if not existing_user:
+            new_user = (full_name,email,phone_number,password)
+            insert_users(new_user)
+            flash('User registered succsessfully', 'success')
+            return redirect(url_for('log_in'))
+        else:
+            flash('Account is already registered.')
+    return render_template('register.html')
+
 
 @app.route('/login')
 def log_in():

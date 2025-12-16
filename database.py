@@ -78,8 +78,7 @@ print(stock)
 # insert stock
 def insert_stock(values):
     cur.execute(
-        f"insert into stock (pid,stock_quantity)values{values}",
-        
+        f"insert into stock (pid,stock_quantity)values{values}",  
     )
     conn.commit()
     
@@ -89,4 +88,10 @@ def get_stock():
     stock = cur.fetchall()
     return stock
 
+def check_user_exists(email):
+    cur.execute("select * from users where email = %s", (email,))
+    user = cur.fetchone()
+    return user
+
+#sales per product
 
