@@ -272,5 +272,7 @@ b. Register
 __Flash messages have two parts__
 --> Message - the actual text feedback
 --> Category - broader class of messages grouped by type
+
+we use flash() to displa
           
 

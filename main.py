@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from database import get_products,get_sales,insert_products,insert_sales,available_stock,get_stock,insert_stock
 
 # assigning an object to flask/ instance of flask
@@ -23,6 +23,7 @@ def add_products():
     selling_price = request.form["selling_price"]
     new_product = (product_name, buying_price, selling_price)
     insert_products(new_product)
+    flash('Product added successfully', 'success')
     return redirect(url_for('fetch_products'))
 
 @app.route('/sales')
@@ -38,9 +39,10 @@ def add_sales():
     new_sale = (product_id, quantity)
     check_stock = available_stock(product_id)
     if check_stock < float(quantity):
-        print('Insuficient stock')
+        flash('Insuficient stock', 'danger')
         return redirect(url_for('fetch_sales'))
     insert_sales(new_sale)
+    flash('Sale made succesfully', 'success')
     return redirect(url_for('fetch_sales'))
 
 
