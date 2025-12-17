@@ -88,10 +88,46 @@ def get_stock():
     stock = cur.fetchall()
     return stock
 
+# Check if user exists
 def check_user_exists(email):
-    cur.execute("select * from users where email = %s", (email,))
-    user = cur.fetchone()
-    return user
+    cur.execute("SELECT * FROM users WHERE email = %s", (email,))
+    return cur.fetchone()
 
-#sales per product
+# Total sales for a specific date
+def get_total_sales_by_day(created_at):
+    cur.execute('SELECT SUM(sale_quantity) FROM sales WHERE created_at = %s', (created_at,))
+    result = cur.fetchone()
+    return result[0] or 0
+
+# Total sales for a specific product
+def get_total_sales_by_product(product_id):
+    cur.execute('SELECT SUM(sale_quantity) FROM sales WHERE pid = %s', (product_id,))
+    result = cur.fetchone()
+    return result[0] or 0
+
+# Total profit for a specific product
+def get_profit_per_product(product_id):
+    # Assuming selling_price and buying_price are in the 'products' table
+    cur.execute('''
+        SELECT SUM(p.selling_price - p.buying_price) 
+        FROM products p 
+        JOIN sales s ON p.id = s.pid 
+        WHERE s.pid = %s
+    ''', (product_id,))
+    result = cur.fetchone()
+    return result[0] or 0
+
+# Profit per day for a specific product
+def get_profit_per_day(product_id, created_at):
+    query = """
+        SELECT SUM(p.selling_price - p.buying_price)
+        FROM products p
+        JOIN sales s ON p.id = s.pid
+        WHERE s.pid = %s AND s.created_at = %s
+    """
+    cur.execute(query, (product_id, created_at))
+    result = cur.fetchone()
+    return result[0] or 0
+
+
 
