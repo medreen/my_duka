@@ -55,11 +55,16 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
+
+          {% if not session.email %}
           <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
           <li class="nav-item"><a class="nav-link" href="/login">LogIn</a></li>
+          {% else %}
           <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
           <li class="nav-item"><a class="nav-link" href="/sales">Sales</a></li>
+           <li class="nav-item"><a class="nav-link" href="/stock">Stock</a></li>
           <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+          {% endif %}
         </ul>
       </div>
 

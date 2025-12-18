@@ -1,8 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from database import get_products,get_sales,insert_products,insert_sales,available_stock,get_stock,insert_stock,check_user_exists, insert_users
+from flask_bcrypt import Bcrypt
+from functools import wraps
 
 # assigning an object to flask/ instance of flask
 app = Flask(__name__)
+
+#creating decrypt object
+bcrypt = Bcrypt(app)
 
 #session secret_key
 app.secret_key = '893479jkkk42904829qawij8742'
@@ -11,7 +16,16 @@ app.secret_key = '893479jkkk42904829qawij8742'
 def home():
     return render_template("index.html")
 
+def login_required(f):
+    @wraps(f)
+    def protected(*args,**kwargs):
+        if 'email' not in session:
+            return redirect(url_for('login'))
+        return f(*args,**kwargs)
+    return protected
+
 @app.route('/products')
+@login_required
 def fetch_products():
     products = get_products()
     return render_template("products.html", products = products)
@@ -27,7 +41,8 @@ def add_products():
     return redirect(url_for('fetch_products'))
 
 @app.route('/sales')
-def fetch_sales():
+@login_required
+def fetch_sales():    
     sales = get_sales()
     products = get_products()
     return render_template('sales.html', sales = sales, products = products)
@@ -47,6 +62,7 @@ def add_sales():
 
 
 @app.route('/stock')
+@login_required
 def fetch_stock():
     stock = get_stock()
     products = get_products()
@@ -62,6 +78,7 @@ def add_stock():
     return redirect(url_for('fetch_stock'))
 
 @app.route('/dashboard')
+@login_required
 def dashboard():
     return render_template("dashboard.html")
 
@@ -75,7 +92,8 @@ def register():
 
         existing_user = check_user_exists(email)
         if not existing_user:
-            new_user = (full_name,email,phone_number,password)
+            hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+            new_user = (full_name,email,phone_number,hashed_password)
             insert_users(new_user)
             flash('User registered succsessfully', 'success')
             return redirect(url_for('log_in'))
@@ -91,11 +109,12 @@ def log_in():
         password = request.form['password']
         registered_user = check_user_exists(email)
 
-        if not registered_user:
+        if not registered_user:            
             flash('User does not exist.', 'danger')
-            return redirect(url_for(register))
+            return redirect(url_for('register'))
         else:
-            if password == registered_user[-1]:
+            if bcrypt.check_password_hash(registered_user[-1],password):
+                session['email'] = email
                 flash('Login successful', 'success')
                 return redirect(url_for('dashboard'))
             else:
