@@ -1,10 +1,68 @@
 {% extends 'base.html' %}
-{% block title %} Products {% endblock %}
+{% block title %} Dashboard {% endblock %}
 {% block content %}
 
-<div>
-    <div>
-        <p>This is the dashboard page</p>
+<div class="space-y-8">
+    
+    <div id="default-carousel" class="relative w-full overflow-hidden rounded-[2rem] shadow-2xl bg-slate-900 h-[400px]" data-carousel="slide">
+        <div class="relative h-full overflow-hidden rounded-lg">
+            
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-10 bg-gradient-to-br from-blue-700 to-indigo-900 text-white">
+                    <h2 class="text-xl font-medium opacity-80 mb-2">Total Gross Revenue</h2>
+                    <p class="text-6xl font-extrabold tracking-tighter">KES {{ "{:,.2f}".format(revenue) }}</p>
+                    <div class="mt-6 px-6 py-2 bg-white/10 rounded-full text-sm backdrop-blur-md">Updated Just Now</div>
+                </div>
+            </div>
+
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-10 bg-gradient-to-br from-emerald-600 to-teal-800 text-white">
+                    <h2 class="text-xl font-medium opacity-80 mb-2">Net Estimated Profit</h2>
+                    <p class="text-6xl font-extrabold tracking-tighter">KES {{ "{:,.2f}".format(profit) }}</p>
+                    <div class="mt-6 flex items-center space-x-2">
+                        <span class="h-2 w-2 bg-white rounded-full animate-pulse"></span>
+                        <span class="text-sm font-bold uppercase tracking-widest">Live Margin</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-10 bg-gradient-to-br from-purple-700 to-pink-800 text-white">
+                    <h2 class="text-xl font-medium opacity-80 mb-2">Active Inventory Items</h2>
+                    <p class="text-6xl font-extrabold tracking-tighter">{{ num_products }} Products</p>
+                    <a href="/products" class="mt-6 px-8 py-3 bg-white text-purple-900 rounded-xl font-bold hover:bg-gray-100 transition-all">View Catalog</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Critical Alerts</h3>
+            {% if low_stock_count > 0 %}
+                <div class="flex items-center p-4 text-red-800 rounded-2xl bg-red-50 border border-red-100">
+                    <div class="text-sm font-bold">You have {{ low_stock_count }} items needing immediate restock.</div>
+                </div>
+            {% else %}
+                <p class="text-gray-500 text-sm italic">No current stock alerts. You're all set!</p>
+            {% endif %}
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm flex items-center justify-between">
+            <div>
+                <h3 class="text-lg font-bold text-gray-800">Quick Sale</h3>
+                <p class="text-sm text-gray-500">Record a transaction instantly.</p>
+            </div>
+            <a href="/sales" class="bg-blue-600 text-white p-4 rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"></path></svg>
+            </a>
+        </div>
     </div>
 </div>
 

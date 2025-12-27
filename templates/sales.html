@@ -1,72 +1,76 @@
 {% extends 'base.html' %}
-{% block title %} Products {% endblock %}
+{% block title %} Sales {% endblock %}
 {% block content %}
 
-<div>
-    <div>
-        <p>This is the sales page</p>
-    </div>
-
-
-    <div>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Add Sales
-        </button>
-
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add sales Here</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="/add_sales" method="post">
-                            <div class="mb-3">
-                                <select class="form-select" name="product_id" aria-label="Default select example">
-                                    <option selected>Select a product</option>
-                                    {% for product in products %}
-                                    <option value="{{product[0]}}">{{product[1]}} </option>
-                                    {% endfor %}                   
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Quantity</label>
-                                <input type="number" name="quantity" class="form-control" id="exampleInputPassword1">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Add Sale</button>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
+<div class="p-4 mt-6">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-400">Sales Records</h2>
+            <p class="text-sm text-gray-500">Track and manage your daily transactions.</p>
         </div>
+        
+        <button data-modal-target="sales-modal" data-modal-toggle="sales-modal" class="block text-white bg-[#3f6995] hover:bg-[#2d4d6e] focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-xl text-sm px-5 py-2.5 text-center transition-all" type="button">
+            + Record a Sale
+        </button>
     </div>
 
-
-
-    <div>
-        <table id="example" class="table table-striped">
-            <thead>
+    <div class="relative overflow-x-auto shadow-xl sm:rounded-3xl bg-white p-6 border border-gray-100">
+        <table id="example" class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
-                    <th>Sales ID</th>
-                    <th>Product ID</th>
-                    <th>Quantity</th>
-                    <th>Created at</th>
+                    <th scope="col" class="px-6 py-4">Sales ID</th>
+                    <th scope="col" class="px-6 py-4">Product ID</th>
+                    <th scope="col" class="px-6 py-4">Quantity</th>
+                    <th scope="col" class="px-6 py-4">Created At</th>
                 </tr>
             </thead>
             <tbody>
                 {% for sale in sales %}
-                <tr>
-                    <td> {{sale[0]}} </td>
-                    <td> {{sale[1]}} </td>
-                    <td> {{sale[2]}} </td>
-                    <td> {{sale[3]}} </td>
+                <tr class="bg-white border-b hover:bg-gray-50 transition-colors">
+                    <td class="px-6 py-4 font-bold text-gray-900"> #{{sale[0]}} </td>
+                    <td class="px-6 py-4 font-medium text-gray-600"> {{sale[1]}} </td>
+                    <td class="px-6 py-4"> 
+                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{sale[2]}} units</span>
+                    </td>
+                    <td class="px-6 py-4 text-gray-500"> {{sale[3]}} </td>
                 </tr>
                 {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
+
+<div id="sales-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-3xl shadow-2xl">
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                <h3 class="text-xl font-bold text-gray-900">Record New Sale</h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="sales-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/></svg>
+                </button>
+            </div>
+            <div class="p-4 md:p-5">
+                <form class="space-y-4" action="/add_sales" method="post">
+                    <div>
+                        <label for="product_id" class="block mb-2 text-sm font-medium text-gray-900">Select Product</label>
+                        <select id="product_id" name="product_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-[#3f6995] focus:border-[#3f6995] block w-full p-2.5" required>
+                            <option value="" disabled selected>Choose product...</option>
+                            {% for product in products %}
+                            <option value="{{product[0]}}">{{product[1]}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="quantity" class="block mb-2 text-sm font-medium text-gray-900">Quantity Sold</label>
+                        <input type="number" name="quantity" id="quantity" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-[#3f6995] focus:border-[#3f6995] block w-full p-2.5" placeholder="Enter amount" required>
+                    </div>
+                    <button type="submit" class="w-full text-white bg-[#3f6995] hover:bg-[#2d4d6e] focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-xl text-sm px-5 py-3 text-center transition-all">
+                        Complete Sale
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

@@ -77,10 +77,6 @@ def add_stock():
     insert_stock(new_stock)
     return redirect(url_for('fetch_stock'))
 
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    return render_template("dashboard.html")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -121,7 +117,50 @@ def log_in():
                 flash("Check login information.", 'danger')
     return render_template("login.html")
 
-# @app.route('/test/<int:user_id>')
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    sales = get_sales()
+    products = get_products()
+    
+    # Create a dictionary for quick price lookup: {product_id: (buying_price, selling_price)}
+    # Assuming prod[0] is ID, prod[2] is buying, prod[3] is selling
+    price_map = {p[0]: (p[2], p[3]) for p in products}
+
+    total_revenue = 0
+    total_profit = 0
+
+    for sale in sales:
+        p_id = sale[1] # Product ID from sales table
+        qty = float(sale[2]) # Quantity from sales table
+        
+        if p_id in price_map:
+            buying_p = float(price_map[p_id][0])
+            selling_p = float(price_map[p_id][1])
+            
+            total_revenue += qty * selling_p
+            total_profit += (selling_p - buying_p) * qty
+
+    # Low stock logic
+    low_stock_items = []
+    for prod in products:
+        stock = available_stock(prod[0])
+        if stock < 5:
+            low_stock_items.append(prod[1])
+
+    return render_template("dashboard.html", 
+                           revenue=total_revenue, 
+                           profit=total_profit, 
+                           num_products=len(products), 
+                           low_stock_count=len(low_stock_items),
+                           low_stock_items=low_stock_items)
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('Logged out successfully. Catch you on the flip side!', 'info')
+    return redirect(url_for('home'))
+
 # def test(user_id):
 #     return {"id":user_id}
 

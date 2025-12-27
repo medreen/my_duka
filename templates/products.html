@@ -2,72 +2,75 @@
 {% block title %} Products {% endblock %}
 {% block content %}
 
-<div>
-    <div>
-        <p>This is the products page</p>
-    </div>
-
-    <div>
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Add Products
+<div class="p-4 mt-6">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-400">Inventory Management</h2>
+        
+        <button data-modal-target="product-modal" data-modal-toggle="product-modal" class="block text-white bg-[#3f6995] hover:bg-[#2d4d6e] focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-xl text-sm px-5 py-2.5 text-center transition-all" type="button">
+            + Add New Product
         </button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add Products Here</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="/add_products" method="post">
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Product Name</label>
-                                <input type="text" name="product_name" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Buying Price</label>
-                                <input type="number" name="buying_price" class="form-control" id="exampleInputPassword1">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Selling Price</label>
-                                <input type="number" name="selling_price" class="form-control" id="exampleInputPassword1">
-                            </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add Product</button>
-                    </div>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
     </div>
 
-    <div>
-        <table id="example" class="table table-striped">
-            <thead>
+    <div class="relative overflow-x-auto shadow-xl sm:rounded-3xl bg-white p-6 border border-gray-100">
+        <table id="example" class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
-                    <th>Product ID</th>
-                    <th>Product Name</th>
-                    <th>Buying Price</th>
-                    <th>Selling Price</th>
+                    <th scope="col" class="px-6 py-4">Product ID</th>
+                    <th scope="col" class="px-6 py-4">Product Name</th>
+                    <th scope="col" class="px-6 py-4 text-right">Buying Price</th>
+                    <th scope="col" class="px-6 py-4 text-right">Selling Price</th>
                 </tr>
             </thead>
             <tbody>
                 {% for product in products %}
-                <tr>
-                    <td> {{product[0]}} </td>
-                    <td> {{product[1]}} </td>
-                    <td> {{product[2]}} </td>
-                    <td> {{product[3]}} </td>
+                <tr class="bg-white border-b hover:bg-gray-50 transition-colors">
+                    <td class="px-6 py-4 font-medium text-gray-900"> #{{product[0]}} </td>
+                    <td class="px-6 py-4 font-semibold text-gray-700"> {{product[1]}} </td>
+                    <td class="px-6 py-4 text-right"> {{product[2]}} </td>
+                    <td class="px-6 py-4 text-right text-blue-600 font-bold"> {{product[3]}} </td>
                 </tr>
                 {% endfor %}
             </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="product-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-3xl shadow-2xl">
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                <h3 class="text-xl font-bold text-gray-900">
+                    Add Products Here
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="product-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <div class="p-4 md:p-5">
+                <form class="space-y-4" action="/add_products" method="post">
+                    <div>
+                        <label for="product_name" class="block mb-2 text-sm font-medium text-gray-900">Product Name</label>
+                        <input type="text" name="product_name" id="product_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-[#3f6995] focus:border-[#3f6995] block w-full p-2.5" placeholder="e.g. Oversized Hoodie" required>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="buying_price" class="block mb-2 text-sm font-medium text-gray-900">Buying Price</label>
+                            <input type="number" name="buying_price" id="buying_price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-[#3f6995] focus:border-[#3f6995] block w-full p-2.5" required>
+                        </div>
+                        <div>
+                            <label for="selling_price" class="block mb-2 text-sm font-medium text-gray-900">Selling Price</label>
+                            <input type="number" name="selling_price" id="selling_price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-[#3f6995] focus:border-[#3f6995] block w-full p-2.5" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full text-white bg-[#3f6995] hover:bg-[#2d4d6e] focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-xl text-sm px-5 py-3 text-center transition-all">
+                        Add Product to Inventory
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
