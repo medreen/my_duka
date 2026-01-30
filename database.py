@@ -1,133 +1,104 @@
 import psycopg2
+from psycopg2.extras import RealDictCursor
 
-conn = psycopg2.connect(host="localhost", port="5432", user="postgres", password="Colesprouse2311!", dbname="myduka_db")
-
-cur = conn.cursor()
+# Database connection
+def get_db_conn():
+    return psycopg2.connect(
+        host="localhost", 
+        port="5432", 
+        user="postgres", 
+        password="Colesprouse2311!", 
+        dbname="myduka_db"
+    )
 
 def get_products():
-    cur.execute("select * from products")
-    products = cur.fetchall()
-    return products
-
-products = get_products()    
-
-def insert_products(values):
-    cur.execute(f"insert into products(name,buying_price,selling_price) values{values}")
-    conn.commit()
-
-# my_product = ('Samsung', 100000, 120000)
-
-# my_product2 = ('Iphone', 200000, 250000)
-# insert_products(my_product)
-# insert_products(my_product2)
-print(products)
-
-def insert_sales(values):
-    cur.execute(f"insert into sales(pid, quantity)values{values}")
-    conn.commit()
-
-# my_sale = (1, 700)
-# my_sale2 = (2, 49)
-# insert_sales(my_sale)
-# insert_sales(my_sale2)
-
-def insert_sales_2(values):
-    cur.execute("insert into sales(pid,quantity)values(%s,%s)",(values))
-    conn.commit()
-
-# sale_1 = (49,200)
-# insert_sales_2(sale_1)
+    with get_db_conn() as conn:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute("SELECT * FROM products")
+            return cur.fetchall()
 
 def get_sales():
-    cur.execute("select * from sales")
-    sales = cur.fetchall()
-    return sales
-
-sales = get_sales()
-print(sales)
+    with get_db_conn() as conn:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute("""
+                SELECT s.id, p.name, s.quantity, s.created_at
+                FROM sales s 
+                JOIN products p ON s.pid = p.id
+                ORDER BY s.created_at DESC
+            """)
+            return cur.fetchall()
 
 def insert_users(values):
-    cur.execute('insert into users(full_name,email,phone_number,password)values(%s,%s,%s,%s)', (values))
-    conn.commit()
+    with get_db_conn() as conn:
+        with conn.cursor() as cur:
+            cur.execute('INSERT INTO users(full_name,email,phone_number,password) VALUES (%s,%s,%s,%s)', values)
+            conn.commit()
 
-def get_users():
-    cur.execute('select * from users')
-    users = cur.fetchall()
-    return users
-
-# user_1 =('John Doe', 'johnd@mail.com', '0111239415', 'mypass')
-# insert_users(user_1)
-#get the users 
-users = get_users()
-print(users)
-
-# availabe stock
-def available_stock(product_id):
-    cur.execute(f'select sum(stock_quantity) from stock where pid={product_id}')
-    total_stock = cur.fetchone()[0] or 0
-
-    cur.execute(f"select sum(quantity) from sales where pid = {product_id}")
-    total_sales = cur.fetchone()[0] or 0
-
-    current_stock = total_stock - total_sales
-    return current_stock
-
-stock = available_stock(1)
-print(stock)
-
-# insert stock
-def insert_stock(values):
-    cur.execute(
-        f"insert into stock (pid,stock_quantity)values{values}",  
-    )
-    conn.commit()
-    
-# stock
-def get_stock():     
-    cur.execute("select * from stock")
-    stock = cur.fetchall()
-    return stock
-
-# Check if user exists
 def check_user_exists(email):
-    cur.execute("SELECT * FROM users WHERE email = %s", (email,))
-    return cur.fetchone()
+    with get_db_conn() as conn:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute("SELECT * FROM users WHERE email = %s", (email,))
+            return cur.fetchone()
 
-# Total sales for a specific date
-def get_total_sales_by_day(created_at):
-    cur.execute('SELECT SUM(sale_quantity) FROM sales WHERE created_at = %s', (created_at,))
-    result = cur.fetchone()
-    return result[0] or 0
+def available_stock(product_id):
+    with get_db_conn() as conn:
+        with conn.cursor() as cur:
+            cur.execute('SELECT SUM(stock_quantity) FROM stock WHERE pid=%s', (product_id,))
+            total_stock = cur.fetchone()[0] or 0
+            cur.execute("SELECT SUM(quantity) FROM sales WHERE pid = %s", (product_id,))
+            total_sales = cur.fetchone()[0] or 0
+            return total_stock - total_sales
 
-# Total sales for a specific product
-def get_total_sales_by_product(product_id):
-    cur.execute('SELECT SUM(sale_quantity) FROM sales WHERE pid = %s', (product_id,))
-    result = cur.fetchone()
-    return result[0] or 0
+def get_dashboard_stats():
+    with get_db_conn() as conn:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            # ::FLOAT ensures Python can convert the Decimal types for JSON
+            cur.execute("""
+                SELECT 
+                    COALESCE(SUM(s.quantity * p.selling_price), 0)::FLOAT as revenue,
+                    COALESCE(SUM(s.quantity * (p.selling_price - p.buying_price)), 0)::FLOAT as profit
+                FROM sales s
+                JOIN products p ON s.pid = p.id;
+            """)
+            return cur.fetchone()
 
-# Total profit for a specific product
-def get_profit_per_product(product_id):
-    # Assuming selling_price and buying_price are in the 'products' table
-    cur.execute('''
-        SELECT SUM(p.selling_price - p.buying_price) 
-        FROM products p 
-        JOIN sales s ON p.id = s.pid 
-        WHERE s.pid = %s
-    ''', (product_id,))
-    result = cur.fetchone()
-    return result[0] or 0
+def get_chart_data():
+    with get_db_conn() as conn:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute("""
+                SELECT p.name, SUM(s.quantity)::FLOAT as qty
+                FROM sales s
+                JOIN products p ON s.pid = p.id
+                GROUP BY p.name
+            """)
+            return cur.fetchall()
+        
+def insert_products(values):
+    with get_db_conn() as conn:
+        with conn.cursor() as cur:
+            cur.execute('INSERT INTO products(name, buying_price, selling_price) VALUES (%s, %s, %s)', values)
+            conn.commit()
 
-# Profit per day for a specific product
-def get_profit_per_day(product_id, created_at):
-    query = """
-        SELECT SUM(p.selling_price - p.buying_price)
-        FROM products p
-        JOIN sales s ON p.id = s.pid
-        WHERE s.pid = %s AND s.created_at = %s
-    """
-    cur.execute(query, (product_id, created_at))
-    result = cur.fetchone()
-    return result[0] or 0
+def insert_sales(pid, quantity):
+    with get_db_conn() as conn:
+        with conn.cursor() as cur:
+            cur.execute('INSERT INTO sales(pid, quantity) VALUES (%s, %s)', (pid, quantity))
+            conn.commit()
 
+def insert_stock(pid, quantity):
+    with get_db_conn() as conn:
+        with conn.cursor() as cur:
+            cur.execute('INSERT INTO stock(pid, stock_quantity) VALUES (%s, %s)', (pid, quantity))
+            conn.commit()
 
-
+def get_stock():
+    with get_db_conn() as conn:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute("""
+                SELECT st.id, p.name, st.stock_quantity, st.created_at
+                FROM stock st
+                JOIN products p ON st.pid = p.id
+                ORDER BY st.created_at DESC
+            """)
+            return cur.fetchall()
+        

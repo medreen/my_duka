@@ -15,24 +15,24 @@
     </div>
 
     <div class="relative overflow-x-auto shadow-xl sm:rounded-3xl bg-white p-6 border border-gray-100">
-        <table id="example" class="w-full text-sm text-left text-gray-500">
+        <table id="salesTable" class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                     <th scope="col" class="px-6 py-4">Sales ID</th>
-                    <th scope="col" class="px-6 py-4">Product ID</th>
+                    <th scope="col" class="px-6 py-4">Product Name</th>
                     <th scope="col" class="px-6 py-4">Quantity</th>
-                    <th scope="col" class="px-6 py-4">Created At</th>
+                    <th scope="col" class="px-6 py-4">Date</th>
                 </tr>
             </thead>
             <tbody>
                 {% for sale in sales %}
                 <tr class="bg-white border-b hover:bg-gray-50 transition-colors">
-                    <td class="px-6 py-4 font-bold text-gray-900"> #{{sale[0]}} </td>
-                    <td class="px-6 py-4 font-medium text-gray-600"> {{sale[1]}} </td>
+                    <td class="px-6 py-4 font-bold text-gray-900"> #{{sale.id}} </td>
+                    <td class="px-6 py-4 font-medium text-gray-600"> {{sale.name}} </td>
                     <td class="px-6 py-4"> 
-                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{sale[2]}} units</span>
+                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{sale.quantity}} units</span>
                     </td>
-                    <td class="px-6 py-4 text-gray-500"> {{sale[3]}} </td>
+                    <td class="px-6 py-4 text-gray-500"> {{sale.created_at.strftime('%Y-%m-%d %H:%M')}} </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -56,7 +56,7 @@
                         <select id="product_id" name="product_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-[#3f6995] focus:border-[#3f6995] block w-full p-2.5" required>
                             <option value="" disabled selected>Choose product...</option>
                             {% for product in products %}
-                            <option value="{{product[0]}}">{{product[1]}}</option>
+                            <option value="{{product.id}}">{{product.name}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -72,5 +72,29 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#salesTable').DataTable({
+            "pageLength": 10,
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+            "language": {
+                "search": "Search sales:",
+                "lengthMenu": "Show _MENU_ sales per page",
+                "info": "Showing _START_ to _END_ of _TOTAL_ sales",
+                "infoEmpty": "No sales available",
+                "infoFiltered": "(filtered from _MAX_ total sales)",
+                "zeroRecords": "No matching sales found",
+                "paginate": {
+                    "first": "First",
+                    "last": "Last",
+                    "next": "Next",
+                    "previous": "Previous"
+                }
+            },
+            "order": [[0, 'desc']]
+        });
+    });
+</script>
 
 {% endblock %}

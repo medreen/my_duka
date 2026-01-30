@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from database import get_products,get_sales,insert_products,insert_sales,available_stock,get_stock,insert_stock,check_user_exists, insert_users
 from flask_bcrypt import Bcrypt
 from functools import wraps
+import json
+from database import * # Ensure all functions above are imported
 
 # assigning an object to flask/ instance of flask
 app = Flask(__name__)
@@ -20,7 +22,7 @@ def login_required(f):
     @wraps(f)
     def protected(*args,**kwargs):
         if 'email' not in session:
-            return redirect(url_for('login'))
+            return redirect(url_for('log_in'))
         return f(*args,**kwargs)
     return protected
 
@@ -120,49 +122,39 @@ def log_in():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    sales = get_sales()
+    # Use the optimized database functions
+    stats = get_dashboard_stats()
+    chart_data = get_chart_data()
     products = get_products()
     
-    # Create a dictionary for quick price lookup: {product_id: (buying_price, selling_price)}
-    # Assuming prod[0] is ID, prod[2] is buying, prod[3] is selling
-    price_map = {p[0]: (p[2], p[3]) for p in products}
-
-    total_revenue = 0
-    total_profit = 0
-
-    for sale in sales:
-        p_id = sale[1] # Product ID from sales table
-        qty = float(sale[2]) # Quantity from sales table
-        
-        if p_id in price_map:
-            buying_p = float(price_map[p_id][0])
-            selling_p = float(price_map[p_id][1])
-            
-            total_revenue += qty * selling_p
-            total_profit += (selling_p - buying_p) * qty
-
+    # Extract stats
+    total_revenue = stats['revenue']
+    total_profit = stats['profit']
+    
+    # Prepare chart data
+    labels = [row['name'] for row in chart_data]
+    values = [row['qty'] for row in chart_data]
+    
     # Low stock logic
-    low_stock_items = []
-    for prod in products:
-        stock = available_stock(prod[0])
-        if stock < 5:
-            low_stock_items.append(prod[1])
+    low_stock = []
+    for p in products:
+        count = available_stock(p['id'])
+        if count < 5:
+            low_stock.append({'name': p['name'], 'count': count})
 
     return render_template("dashboard.html", 
                            revenue=total_revenue, 
-                           profit=total_profit, 
-                           num_products=len(products), 
-                           low_stock_count=len(low_stock_items),
-                           low_stock_items=low_stock_items)
-
+                           profit=total_profit,
+                           labels=json.dumps(labels),
+                           sales_values=json.dumps(values),
+                           num_products=len(products),
+                           low_stock_count=len(low_stock))
 @app.route('/logout')
 def logout():
     session.clear()
     flash('Logged out successfully. Catch you on the flip side!', 'info')
     return redirect(url_for('home'))
 
-# def test(user_id):
-#     return {"id":user_id}
 
     
 app.run(debug=True)

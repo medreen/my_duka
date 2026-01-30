@@ -6,7 +6,7 @@
     <div class="flex justify-between items-center mb-6">
         <div>
             <h2 class="text-2xl font-bold text-gray-400">Stock Management</h2>
-            <p class="text-sm text-gray-500">Add and monitor inventory levels for your products.</p>
+            <p class="text-sm text-gray-500">Add and monitor stock levels for your products.</p>
         </div>
         
         <button data-modal-target="stock-modal" data-modal-toggle="stock-modal" class="block text-white bg-[#3f6995] hover:bg-[#2d4d6e] focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-xl text-sm px-5 py-2.5 text-center transition-all" type="button">
@@ -15,26 +15,26 @@
     </div>
 
     <div class="relative overflow-x-auto shadow-xl sm:rounded-3xl bg-white p-6 border border-gray-100">
-        <table id="example" class="w-full text-sm text-left text-gray-500">
+        <table id="stockTable" class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                     <th scope="col" class="px-6 py-4 font-bold">Stock ID</th>
-                    <th scope="col" class="px-6 py-4">Product ID</th>
+                    <th scope="col" class="px-6 py-4">Product Name</th>
                     <th scope="col" class="px-6 py-4">Quantity Added</th>
-                    <th scope="col" class="px-6 py-4 text-right">Created At</th>
+                    <th scope="col" class="px-6 py-4 text-right">Date Added</th>
                 </tr>
             </thead>
             <tbody>
                 {% for item in stock %}
                 <tr class="bg-white border-b hover:bg-gray-50 transition-colors">
-                    <td class="px-6 py-4 font-bold text-gray-900"> #{{item[0]}} </td>
-                    <td class="px-6 py-4 font-medium text-gray-600"> {{item[1]}} </td>
+                    <td class="px-6 py-4 font-bold text-gray-900"> #{{item.id}} </td>
+                    <td class="px-6 py-4 font-medium text-gray-600"> {{item.name}} </td>
                     <td class="px-6 py-4"> 
                         <span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">
-                            + {{item[2]}}
+                            + {{item.stock_quantity}}
                         </span>
                     </td>
-                    <td class="px-6 py-4 text-right text-gray-400"> {{item[3]}} </td>
+                    <td class="px-6 py-4 text-right text-gray-400"> {{item.created_at.strftime('%Y-%m-%d %H:%M')}} </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -60,7 +60,7 @@
                         <select id="product_id" name="product_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-[#3f6995] focus:border-[#3f6995] block w-full p-3" required>
                             <option value="" disabled selected>Search for a product...</option>
                             {% for product in products %}
-                            <option value="{{product[0]}}">{{product[1]}}</option>
+                            <option value="{{product.id}}">{{product.name}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -76,5 +76,29 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#stockTable').DataTable({
+            "pageLength": 10,
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+            "language": {
+                "search": "Search stock:",
+                "lengthMenu": "Show _MENU_ stock entries per page",
+                "info": "Showing _START_ to _END_ of _TOTAL_ stock entries",
+                "infoEmpty": "No stock entries available",
+                "infoFiltered": "(filtered from _MAX_ total entries)",
+                "zeroRecords": "No matching stock entries found",
+                "paginate": {
+                    "first": "First",
+                    "last": "Last",
+                    "next": "Next",
+                    "previous": "Previous"
+                }
+            },
+            "order": [[0, 'desc']]
+        });
+    });
+</script>
 
 {% endblock %}

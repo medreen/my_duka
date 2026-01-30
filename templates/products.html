@@ -4,15 +4,18 @@
 
 <div class="p-4 mt-6">
     <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-400">Inventory Management</h2>
+        <div>
+        <h2 class="text-2xl font-bold text-gray-400">Product Inventory</h2>
+        <p class="text-sm text-gray-500">Add and monitor inventory levels for your products.</p>
         
+        </div>
         <button data-modal-target="product-modal" data-modal-toggle="product-modal" class="block text-white bg-[#3f6995] hover:bg-[#2d4d6e] focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-xl text-sm px-5 py-2.5 text-center transition-all" type="button">
             + Add New Product
         </button>
     </div>
 
     <div class="relative overflow-x-auto shadow-xl sm:rounded-3xl bg-white p-6 border border-gray-100">
-        <table id="example" class="w-full text-sm text-left text-gray-500">
+        <table id="productsTable" class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                     <th scope="col" class="px-6 py-4">Product ID</th>
@@ -24,10 +27,10 @@
             <tbody>
                 {% for product in products %}
                 <tr class="bg-white border-b hover:bg-gray-50 transition-colors">
-                    <td class="px-6 py-4 font-medium text-gray-900"> #{{product[0]}} </td>
-                    <td class="px-6 py-4 font-semibold text-gray-700"> {{product[1]}} </td>
-                    <td class="px-6 py-4 text-right"> {{product[2]}} </td>
-                    <td class="px-6 py-4 text-right text-blue-600 font-bold"> {{product[3]}} </td>
+                    <td class="px-6 py-4 font-medium text-gray-900"> #{{product.id}} </td>
+                    <td class="px-6 py-4 font-semibold text-gray-700"> {{product.name}} </td>
+                    <td class="px-6 py-4 text-right"> Ksh {{"{:,.2f}".format(product.buying_price)}} </td>
+                    <td class="px-6 py-4 text-right text-blue-600 font-bold"> Ksh {{"{:,.2f}".format(product.selling_price)}} </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -73,5 +76,29 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#productsTable').DataTable({
+            "pageLength": 10,
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+            "language": {
+                "search": "Search products:",
+                "lengthMenu": "Show _MENU_ products per page",
+                "info": "Showing _START_ to _END_ of _TOTAL_ products",
+                "infoEmpty": "No products available",
+                "infoFiltered": "(filtered from _MAX_ total products)",
+                "zeroRecords": "No matching products found",
+                "paginate": {
+                    "first": "First",
+                    "last": "Last",
+                    "next": "Next",
+                    "previous": "Previous"
+                }
+            },
+            "order": [[0, 'asc']]
+        });
+    });
+</script>
 
 {% endblock %}
