@@ -4,6 +4,8 @@ from flask_bcrypt import Bcrypt
 from functools import wraps
 import json
 from database import * # Ensure all functions above are imported
+from datetime import datetime, timedelta
+from collections import Counter
 
 # assigning an object to flask/ instance of flask
 app = Flask(__name__)
@@ -30,7 +32,21 @@ def login_required(f):
 @login_required
 def fetch_products():
     products = get_products()
-    return render_template("products.html", products = products)
+    
+    # Calculate stats
+    low_stock_count = sum(1 for p in products if available_stock(p['id']) < 5)
+    in_stock_count = sum(1 for p in products if available_stock(p['id']) > 0)
+    
+    # Calculate total inventory value
+    total_value = sum(available_stock(p['id']) * float(p['buying_price']) for p in products)
+    
+    return render_template("products.html", 
+                          products=products,
+                          low_stock_count=low_stock_count,
+                          in_stock_count=in_stock_count,
+                          total_inventory_value=total_value,
+                          available_stock=available_stock)
+
 
 @app.route('/add_products', methods = ['GET', 'POST'])
 def add_products():
@@ -47,7 +63,36 @@ def add_products():
 def fetch_sales():    
     sales = get_sales()
     products = get_products()
-    return render_template('sales.html', sales = sales, products = products)
+    
+    # Calculate stats
+    today = datetime.now().date()
+    today_sales_count = sum(1 for s in sales if s['created_at'].date() == today)
+    total_units_sold = sum(s['quantity'] for s in sales)
+    
+    # Top product
+    product_counter = Counter(s['name'] for s in sales)
+    top_product_name = product_counter.most_common(1)[0][0] if product_counter else "N/A"
+    
+    # Chart data (last 7 days)
+    last_7_days = [(today - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(6, -1, -1)]
+    sales_by_date = {date: 0 for date in last_7_days}
+    for s in sales:
+        date_str = s['created_at'].strftime('%Y-%m-%d')
+        if date_str in sales_by_date:
+            sales_by_date[date_str] += s['quantity']
+    
+    sales_chart_labels = list(sales_by_date.keys())
+    sales_chart_data = list(sales_by_date.values())
+    
+    return render_template('sales.html', 
+                          sales=sales, 
+                          products=products,
+                          today_sales_count=today_sales_count,
+                          total_units_sold=total_units_sold,
+                          top_product_name=top_product_name,
+                          sales_chart_labels=json.dumps(sales_chart_labels),
+                          sales_chart_data=json.dumps(sales_chart_data))
+
 
 @app.route('/add_sales', methods = ['GET', 'POST'])
 def add_sales():
@@ -68,8 +113,34 @@ def add_sales():
 def fetch_stock():
     stock = get_stock()
     products = get_products()
-    return render_template('stock.html', stock = stock, products = products)
-
+    
+    # Calculate stats
+    total_stock_added = sum(s['stock_quantity'] for s in stock)
+    latest_stock_product = stock[0]['name'] if stock else "N/A"
+    
+    # Stock value (approximate)
+    stock_value = sum(s['stock_quantity'] * 100 for s in stock)  # Simplified calculation
+    
+    # Chart data (last 7 days)
+    today = datetime.now().date()
+    last_7_days = [(today - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(6, -1, -1)]
+    stock_by_date = {date: 0 for date in last_7_days}
+    for s in stock:
+        date_str = s['created_at'].strftime('%Y-%m-%d')
+        if date_str in stock_by_date:
+            stock_by_date[date_str] += s['stock_quantity']
+    
+    stock_chart_labels = list(stock_by_date.keys())
+    stock_chart_data = list(stock_by_date.values())
+    
+    return render_template('stock.html', 
+                          stock=stock, 
+                          products=products,
+                          total_stock_added=total_stock_added,
+                          latest_stock_product=latest_stock_product,
+                          stock_value=stock_value,
+                          stock_chart_labels=json.dumps(stock_chart_labels),
+                          stock_chart_data=json.dumps(stock_chart_data))
 
 @app.route('/add_stock', methods = ['GET', 'POST'])
 def add_stock():
